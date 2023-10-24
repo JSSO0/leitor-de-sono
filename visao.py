@@ -94,7 +94,7 @@ while True:
                 if alarm_path != "":
                     sound_alarm(alarm_path)
 
-                cv2.putText(frame, "DROWSINESS ALERT!", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                cv2.putText(frame, "ALERTA DE SONO!", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
         else:
             COUNTER_EYES_CLOSED = 0
@@ -103,7 +103,7 @@ while True:
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
 
-    if key == ord("q"):
+    if key == ord("q" ):
         break
 
 cap.release()
