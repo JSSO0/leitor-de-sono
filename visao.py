@@ -3,18 +3,20 @@ import dlib
 import playsound
 import argparse
 from scipy.spatial import distance as dist
+import numpy as np
 
 def sound_alarm(path):
     playsound.playsound(path)
-
+    
+# Função para calcular a razão de aspecto dos olhos (EAR)
 def eye_aspect_ratio(eye):
-    A = dist.euclidean(eye[1], eye[5])
-    B = dist.euclidean(eye[2], eye[4])
-    C = dist.euclidean(eye[0], eye[3])
+    A = np.linalg.norm(eye[1] - eye[5])
+    B = np.linalg.norm(eye[2] - eye[4])
+    C = np.linalg.norm(eye[0] - eye[3])
 
     ear = (A + B) / (2.0 * C)
-
     return ear
+
 
 ap = argparse.ArgumentParser()
 
@@ -26,6 +28,11 @@ ap.add_argument("-w", "--webcam", type=int, default=0, help="index of webcam on 
 
 args = vars(ap.parse_args())
 
+# Adjust the default values for the arguments based on your file paths
+args["shape_predictor"] = "C:\\Users\\ubots\\Desktop\\leitor-de-sono\\shape_predictor_68_face_landmarks.dat"
+
+args["alarm"] = "C:\\Users\\ubots\\Desktop\\leitor-de-sono\\alarme.wav"
+
 # Inicializar o detector de faces e o detector de pontos de referência faciais
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(args["shape_predictor"])
@@ -34,8 +41,9 @@ predictor = dlib.shape_predictor(args["shape_predictor"])
 EYE_AR_THRESH = 0.3
 EYE_AR_CONSEC_FRAMES = 48
 
-# Inicializar o contador de frames de boca fechada
+# Inicializar o contador de frames de boca fechada e de olhos fechados
 COUNTER = 0
+COUNTER_EYES_CLOSED = 0
 
 # Carregar o arquivo de alarme (se fornecido)
 if args["alarm"] != "":
@@ -62,7 +70,9 @@ while True:
     for rect in rects:
         # Determinar os pontos de referência faciais para a região do rosto atual
         shape = predictor(gray, rect)
-        shape = shape_to_np(shape)
+
+        # Converter os pontos de referência faciais em um formato NumPy
+        shape = np.array([[shape.part(i).x, shape.part(i).y] for i in range(68)])
 
         # Calcular a razão de aspecto dos olhos (EAR) para ambos os olhos
         leftEAR = eye_aspect_ratio(shape[42:48])
@@ -78,16 +88,16 @@ while True:
         cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
 
         if ear < EYE_AR_THRESH:
-            COUNTER += 1
+            COUNTER_EYES_CLOSED += 1
 
-            if COUNTER >= EYE_AR_CONSEC_FRAMES:
+            if COUNTER_EYES_CLOSED >= EYE_AR_CONSEC_FRAMES:
                 if alarm_path != "":
                     sound_alarm(alarm_path)
 
                 cv2.putText(frame, "DROWSINESS ALERT!", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
 
         else:
-            COUNTER = 0
+            COUNTER_EYES_CLOSED = 0
 
     # Mostrar o frame
     cv2.imshow("Frame", frame)

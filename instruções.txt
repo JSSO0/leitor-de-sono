@@ -1,0 +1,3 @@
+python visao.py -p "C:\Users\ubots\Desktop\leitor-de-sono\shape_predictor_68_face_landmarks.dat" -a "C:\Users\ubots\Desktop\leitor-de-sono\alarme\alarme.wav" -w 0
+
+para executar!
