@@ -88,17 +88,17 @@ while True:
         cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
         cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
 
-        if ear < EYE_AR_THRESH:
-            COUNTER_EYES_CLOSED += 1
+        if ear < EYE_AR_THRESH: #se os olhos estão fechados menor que o limite estabelecido ent está fechado
+            COUNTER_EYES_CLOSED += 1 # se o olhos estão fechados adicionamos mais um frame
 
-            if COUNTER_EYES_CLOSED >= EYE_AR_CONSEC_FRAMES:
-                if alarm_path != "":
+            if COUNTER_EYES_CLOSED >= EYE_AR_CONSEC_FRAMES: #verificamos se o numero de frames que os olhos estão fechados é igual ou maior que o limite estabelecido
+                if alarm_path != "": #acionamos o alarme
                     sound_alarm(alarm_path)
 
-                cv2.putText(frame, "ALERTA DE SONO!", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                cv2.putText(frame, "ALERTA DE SONO!", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)#e adicionamos o alerta na tela.
 
         else:
-            COUNTER_EYES_CLOSED = 0
+            COUNTER_EYES_CLOSED = 0 #senaõ for satisfeita, reiniciamos o contador.
 
     # Mostrar o frame
     cv2.imshow("Frame", frame)

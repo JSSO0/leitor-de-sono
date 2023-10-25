@@ -34,8 +34,8 @@ args["alarm"] = "C:\\Users\\ubots\\Desktop\\leitor-de-sono\\alarme.wav"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(args["shape_predictor"])
 
-EYE_AR_THRESH = 0.3
-EYE_AR_CONSEC_FRAMES = 48
+EYE_AR_THRESH = 0.2
+EYE_AR_CONSEC_FRAMES = 36
 
 COUNTER = 0
 COUNTER_EYES_CLOSED = 0
@@ -55,7 +55,7 @@ while True:
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    rects = detector(gray, 0)
+    rects = detector(gray, 1)
 
     for rect in rects:
         shape = predictor(gray, rect)
