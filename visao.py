@@ -34,7 +34,7 @@ args["alarm"] = "C:\\Users\\ubots\\Desktop\\leitor-de-sono\\alarme.wav"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(args["shape_predictor"])
 
-EYE_AR_THRESH = 0.2
+EYE_AR_THRESH = 0.3
 EYE_AR_CONSEC_FRAMES = 36
 
 COUNTER = 0
