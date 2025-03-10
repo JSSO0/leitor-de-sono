@@ -1,3 +1,9 @@
-python visao.py -p "C:\Users\ubots\Desktop\leitor-de-sono\shape_predictor_68_face_landmarks.dat" -a "C:\Users\ubots\Desktop\leitor-de-sono\alarme\alarme.wav" -w 0
-
 para executar!
+python visao.py -p "./shape_predictor_68_face_landmarks.dat" -a "./alarme.wav" -w 0
+
+Libs requeridas:
+para dlib instale cmake antes de rodar o comando, reinicie e instale pip install dlib
+para o import cv2 use pip install opencv-python
+pip install playsound==1.2.2
+pip install scipy
+pip install numpy

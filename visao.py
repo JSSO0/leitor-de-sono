@@ -27,9 +27,9 @@ ap.add_argument("-w", "--webcam", type=int, default=0, help="index of webcam on 
 
 args = vars(ap.parse_args())
 
-args["shape_predictor"] = "C:\\Users\\ubots\\Desktop\\leitor-de-sono\\shape_predictor_68_face_landmarks.dat"
+args["shape_predictor"] = "./shape_predictor_68_face_landmarks.dat"
 
-args["alarm"] = "C:\\Users\\ubots\\Desktop\\leitor-de-sono\\alarme.wav"
+args["alarm"] = "./alarme.wav"
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(args["shape_predictor"])
